@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CreateTaskForm } from './CreateTaskForm';
 import { TaskItem } from './TaskItem';
 
@@ -9,7 +9,15 @@ export function TaskList() {
     status: 'notStarted' | 'completed' | 'trashed';
   };
 
-  const [taskList, setTaskList] = useState<Task[]>([]);
+  const [taskList, setTaskList] = useState<Task[]>(() => {
+    const taskListStorage = localStorage.getItem('taskList');
+
+    return JSON.parse(taskListStorage ?? '[]');
+  });
+
+  useEffect(() => {
+    localStorage.setItem('taskList', JSON.stringify(taskList));
+  }, [taskList]);
 
   const createTask = (title: string) => {
     setTaskList((prevTaskList) => {
