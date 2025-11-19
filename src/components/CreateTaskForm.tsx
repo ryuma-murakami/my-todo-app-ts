@@ -8,8 +8,8 @@ type CreateTaskFormProps = {
 export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!inputRef.current) {
       return;
     }
