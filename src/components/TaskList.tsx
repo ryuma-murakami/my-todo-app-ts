@@ -1,45 +1,9 @@
-import { useEffect, useState } from 'react';
 import { CreateTaskForm } from './CreateTaskForm';
 import { TaskItem } from './TaskItem';
+import { useTasks } from '../hooks/useTasks';
 
 export function TaskList() {
-  type Task = {
-    id: number;
-    title: string;
-    status: 'notStarted' | 'completed' | 'trashed';
-  };
-
-  const [taskList, setTaskList] = useState<Task[]>(() => {
-    const taskListStorage = localStorage.getItem('taskList');
-
-    return JSON.parse(taskListStorage ?? '[]');
-  });
-
-  useEffect(() => {
-    localStorage.setItem('taskList', JSON.stringify(taskList));
-  }, [taskList]);
-
-  const createTask = (title: string) => {
-    setTaskList((prevTaskList) => {
-      const newTask: Task = {
-        id: Date.now(),
-        title,
-        status: 'notStarted',
-      };
-
-      return [...prevTaskList, newTask];
-    });
-  };
-
-  const activeTaskList = taskList.filter(({ status }) => status !== 'trashed');
-
-  const updateTask = (id: number, update: Partial<Task>) => {
-    setTaskList((prevTaskList) => {
-      return prevTaskList.map((task) =>
-        task.id === id ? { ...task, ...update } : task,
-      );
-    });
-  };
+  const { activeTaskList, createTask, updateTask } = useTasks();
 
   return (
     <div className="relative">
@@ -52,7 +16,7 @@ export function TaskList() {
         {activeTaskList.length === 0 ? (
           <p className="text-center text-sm">タスクがありません</p>
         ) : (
-          activeTaskList.map((task) => (
+          activeTaskList.map(task => (
             <TaskItem key={task.id} task={task} onChange={updateTask} />
           ))
         )}

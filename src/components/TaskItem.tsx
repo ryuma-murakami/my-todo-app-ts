@@ -1,5 +1,6 @@
 import { cva } from 'class-variance-authority';
 import { Trash2 } from 'lucide-react';
+import type { Task } from '../types/task';
 
 const inputVariants = cva('flex-1 border px-2 py-1 border-gray-300 bg-white', {
   variants: {
@@ -10,15 +11,9 @@ const inputVariants = cva('flex-1 border px-2 py-1 border-gray-300 bg-white', {
   },
 });
 
-type Task = {
-  id: number;
-  title: string;
-  status: 'notStarted' | 'completed' | 'trashed';
-};
-
 type TaskItemProps = {
   task: Task;
-  onChange: (id: number, update: Partial<Task>) => void;
+  onChange: (id: string, update: Partial<Task>) => void;
 };
 
 export function TaskItem({ task, onChange }: TaskItemProps) {
@@ -29,7 +24,7 @@ export function TaskItem({ task, onChange }: TaskItemProps) {
           type="checkbox"
           className="size-5 cursor-pointer"
           checked={task.status === 'completed'}
-          onChange={(event) =>
+          onChange={event =>
             onChange(task.id, {
               status: event.target.checked ? 'completed' : 'notStarted',
             })
@@ -41,13 +36,13 @@ export function TaskItem({ task, onChange }: TaskItemProps) {
         className={inputVariants({ completed: task.status === 'completed' })}
         defaultValue={task.title}
         disabled={task.status === 'completed'}
-        onKeyDown={(event) => {
+        onKeyDown={event => {
           if (event.nativeEvent.isComposing || event.key !== 'Enter') {
             return;
           }
           event.currentTarget.blur();
         }}
-        onBlur={(event) => {
+        onBlur={event => {
           onChange(task.id, {
             title: event.target.value,
           });
