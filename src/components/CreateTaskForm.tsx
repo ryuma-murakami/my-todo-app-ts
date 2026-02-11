@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, type FormEvent } from 'react';
 
 type CreateTaskFormProps = {
   onSubmit: (title: string) => void;
@@ -8,7 +8,7 @@ type CreateTaskFormProps = {
 export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!inputRef.current) {
       return;
