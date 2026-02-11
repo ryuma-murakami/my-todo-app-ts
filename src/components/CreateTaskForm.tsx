@@ -14,7 +14,7 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
       return;
     }
 
-    const inputValue = inputRef.current?.value.trim();
+    const inputValue = inputRef.current.value.trim();
     if (!inputValue) {
       return;
     }
