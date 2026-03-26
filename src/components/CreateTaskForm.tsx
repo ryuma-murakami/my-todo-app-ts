@@ -30,7 +30,7 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
         ref={inputRef}
         type="text"
         placeholder="新しいタスクを入力してください"
-        className="grow rounded-s border border-gray-300 p-2 bg-white"
+        className="grow rounded-s border border-gray-300 bg-white p-2"
       />
       <button
         type="submit"
